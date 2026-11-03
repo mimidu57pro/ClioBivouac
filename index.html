@@ -3731,10 +3731,15 @@ const rangR=new THREE.Group(),rangL=new THREE.Group();bas.add(rangR,rangL);const
  const side=(par,trap,o)=>{/* chant sombre autour du trou */
   for(const sz of[-1,1])box(.02,OH,.012,edgeM,0,y0+OH/2,sz*(OL/2-.006),par);box(.02,.012,OL,edgeM,0,y0+OH-.006,0,par);
   /* matériel rangé dans le BAS, vu par le trou */
-  let k=0;for(const [w,h,d,x,z] of[[.2,.11,.24,.31,-.13],[.16,.08,.2,.3,.13],[.14,.13,.17,.5,-.1],[.15,.06,.24,.5,.14]]){box(w,h,d,new THREE.MeshStandardMaterial({color:gear[k++%5],roughness:.85}),-o*x,BY0+h/2+.004,z,par);}
-  const rope=new THREE.Mesh(new THREE.TorusGeometry(.05,.014,8,20),new THREE.MeshStandardMaterial({color:0xd8c9a3,roughness:.9}));rope.rotation.x=Math.PI/2;rope.position.set(-o*.42,BY0+.02,.02);par.add(rope);};
+  let k=0;for(const [w,h,d,x,z] of[[.2,.11,.24,.31,-.13],[.16,.08,.2,.3,.13],[.14,.13,.17,.5,-.1],[.15,.06,.24,.5,.14]]){box(w,h,d,new THREE.MeshStandardMaterial({color:gear[k++%5],roughness:.85}),-o*x,BY0+.018+h/2+.002,z,par);}
+  const rope=new THREE.Mesh(new THREE.TorusGeometry(.05,.014,8,20),new THREE.MeshStandardMaterial({color:0xd8c9a3,roughness:.9}));rope.rotation.x=Math.PI/2;rope.position.set(-o*.42,BY0+.034,.02);par.add(rope);};
  side(rangR,trapR,-1);side(rangL,trapL,1);}
 rangR.position.set(-BW/2+.009,0,RGZ);rangL.position.set(BW/2-.009,0,RGZ);
+/* fond du BAS et cloisons : le rangement est un caisson fermé, on ne voit plus à travers */
+PL(BW,.018,BL,0,BY0+.009,(BZ0+BZ1)/2,bas);
+{const za=RGZ-RGD/2-.03,zb=RGZ+RGD/2+.03,hh=BY1-BY0-.036,yc=(BY0+BY1)/2;
+ for(const z of[za,zb])PL(BW-.036,hh,.018,0,yc,z,bas);
+ PL(.018,hh,zb-za,0,yc,RGZ,bas);}
 PL(BW,BY1-BY0,.018,0,(BY0+BY1)/2,BZ0+.009,bas);PL(BW,BY1-BY0,.018,0,(BY0+BY1)/2,BZ1-.009,bas);
 /* trappe du BAS côté avant (accès pompe) */
 const trappe=new THREE.Group();trappe.position.set(-.05,BY1+.002,BZ1-.035);bas.add(trappe);PL(.22,.006,.16,0,0,-.08,trappe,plyE);
