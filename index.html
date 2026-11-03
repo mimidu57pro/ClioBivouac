@@ -3468,9 +3468,9 @@ const THREE=window.THREE;const {OrbitControls,RoundedBoxGeometry,toCreasedNormal
 
 const stage=document.getElementById('stage'),cv=document.getElementById('scene'),pinsEl=document.getElementById('pins');
 const mobile=matchMedia('(max-width:760px)').matches;
-const R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true,powerPreference:'high-performance'});
+const R=new THREE.WebGLRenderer({canvas:cv,antialias:devicePixelRatio<1.4,alpha:true,powerPreference:'high-performance'});
 R.setPixelRatio(Math.min(devicePixelRatio,mobile?1.5:1.75));R.outputColorSpace=THREE.SRGBColorSpace;R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.0;
-R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;R.shadowMap.autoUpdate=false;R.shadowMap.needsUpdate=true;
+R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFShadowMap;R.shadowMap.autoUpdate=false;R.shadowMap.needsUpdate=true;
 const scene=new THREE.Scene();
 const cam=new THREE.PerspectiveCamera(34,1,.03,220);cam.position.set(6.0,2.6,-6.2);
 const ctl=new OrbitControls(cam,cv);ctl.target.set(-.3,.75,-.4);ctl.enableDamping=true;ctl.dampingFactor=.07;ctl.minDistance=.3;ctl.maxDistance=17;ctl.maxPolarAngle=Math.PI*.497;ctl.minDistance=.15;ctl.autoRotate=true;ctl.autoRotateSpeed=.4;ctl.enablePan=false;
@@ -3571,7 +3571,7 @@ const M={
   paint:new THREE.MeshPhysicalMaterial({color:0x22359a,metalness:.62,roughness:.3,clearcoat:1,clearcoatRoughness:.04,side:THREE.DoubleSide,envMapIntensity:1.25}),
   trim:new THREE.MeshPhysicalMaterial({color:0x0c0d0f,metalness:.1,roughness:.28,clearcoat:.6,clearcoatRoughness:.2,side:THREE.DoubleSide}),
   plastic:new THREE.MeshStandardMaterial({color:0x2a2c30,roughness:.78,metalness:0,side:THREE.DoubleSide}),
-  glass:new THREE.MeshPhysicalMaterial({color:0x0f1d24,metalness:0,roughness:.03,transparent:true,opacity:.42,side:THREE.DoubleSide,depthWrite:false,envMapIntensity:2.2,specularIntensity:1,clearcoat:1,clearcoatRoughness:0}),
+  glass:new THREE.MeshPhysicalMaterial({color:0x0f1d24,metalness:0,roughness:.03,transparent:true,opacity:.42,side:THREE.DoubleSide,depthWrite:false,envMapIntensity:2.2,specularIntensity:1,forceSinglePass:true}),
   head:new THREE.MeshPhysicalMaterial({color:0xdde3e8,metalness:1,roughness:.1,emissive:0xfff0d4,emissiveIntensity:0,side:THREE.DoubleSide,envMapIntensity:1.6}),
   headLens:new THREE.MeshPhysicalMaterial({color:0xffffff,metalness:0,roughness:.02,transparent:true,opacity:.16,clearcoat:1,clearcoatRoughness:0,emissive:0xfff3dc,emissiveIntensity:0,side:THREE.DoubleSide,depthWrite:false,envMapIntensity:2.4}),
   tailLens:new THREE.MeshPhysicalMaterial({color:0xc8101a,metalness:0,roughness:.05,transparent:true,opacity:.62,clearcoat:1,clearcoatRoughness:0,emissive:0xff1a10,emissiveIntensity:0,side:THREE.DoubleSide,depthWrite:false,envMapIntensity:1.6}),
@@ -4133,7 +4133,7 @@ loadCar().then(G=>{shadowDirty=6;dirty=10;
   {const im=mk(G.interior,M.inter,.9);car.add(im);NAMED.interior=[im];}
   for(const [x,z] of[[.685,-1.291],[-.685,-1.291],[.685,1.157],[-.685,1.157]]){const w=new THREE.Group();w.position.set(x,.289,z);if(x<0)w.rotation.y=Math.PI;
     w.add(mk(G.tire.clone(),M.tire,.9));w.add(mk(G.rim.clone(),M.rim,.9));car.add(w);wheels.push(w);}
-  scene.traverse(o=>{if(o.isMesh&&!o.parent?.isScene&&o.parent===car&&!o.userData.anim){o.matrixAutoUpdate=false;o.updateMatrix();}});ready=true;document.getElementById('stLoad').classList.add('done');window.dispatchEvent(new Event('clio3d:ready'));
+  scene.traverse(o=>{if(o.isMesh&&!o.parent?.isScene&&o.parent===car&&!o.userData.anim){o.matrixAutoUpdate=false;o.updateMatrix();}});scene.traverse(o=>{const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[];for(const m of ms)if(m.transparent&&m.side===THREE.DoubleSide)m.forceSinglePass=true;});ready=true;document.getElementById('stLoad').classList.add('done');window.dispatchEvent(new Event('clio3d:ready'));
 }).catch(e=>{console.error(e);document.getElementById('stLoad').innerHTML='<div style="text-align:center;max-width:300px">La Clio n\'a pas pu se charger.<br><small style="opacity:.7;word-break:break-word">'+String(e&&e.message||e).replace(/</g,'&lt;').slice(0,240)+'</small><br><button type="button" onclick="location.reload()" style="margin-top:10px;min-height:40px;padding:0 16px;border-radius:999px;border:0;background:var(--acc);color:var(--acc-ink);font:inherit">Réessayer</button></div>';});
 
 /* état animé */
@@ -4287,7 +4287,7 @@ function frame(now){requestAnimationFrame(frame);const dt=Math.min(.05,(now-last
   const INH=['drawer','cond','planche','flame','sink','spray','awning','flid'];const G={};
   if(T.hatch<.5){for(const k of INH)T[k]=0;if(INH.some(k=>A[k]>.02))G.hatch=Math.max(T.hatch,A.hatch);}
   if(A.hatch<.97)for(const k of['drawer','cond','planche','flid'])if(T[k]>A[k])G[k]=A[k];
-  if(A.drawer<.97)for(const k of['cond','planche'])if(T[k]>A[k])G[k]=A[k];
+  if(A.cond<.97&&T.planche>A.planche)G.planche=A.planche;
   for(const k in A){const d=(k in G?G[k]:T[k])-A[k];const sp=k==='lights'?(d>0?2.6:1.5):speed[k];if(Math.abs(d)>1e-4){A[k]+=Math.sign(d)*Math.min(Math.abs(d),sp*dt);moving=true;}}
   if(moving||shadowDirty>0){R.shadowMap.needsUpdate=true;if(shadowDirty>0)shadowDirty--;}
 
