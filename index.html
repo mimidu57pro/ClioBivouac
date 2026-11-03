@@ -4086,14 +4086,25 @@ function placeLamps(L){L.head.forEach(p=>{const j=p[0]>0?0:1;const k=p[0]>0?1:0;
 
 /* chargement du modèle */
 const hatchPivot=new THREE.Group();hatchPivot.position.set(0,1.302,-1.33);car.add(hatchPivot);
-const RDH=[-.795,.6,-.262];const rdoorPivot=new THREE.Group();rdoorPivot.position.set(...RDH);car.add(rdoorPivot);if(window.__rLogo)hatchPivot.add(window.__rLogo);
+const RDH=[-.795,.6,-.262];const rdoorPivot=new THREE.Group();rdoorPivot.position.set(...RDH);car.add(rdoorPivot);
+/* garniture intérieure de la portière arrière droite (panneau propre côté habitacle) */
+{const P=[[-.28,.31],[-.28,.80],[-1.215,.80],[-1.2,.75],[-1.13,.68],[-1.05,.61],[-.99,.53],[-.94,.45],[-.89,.38],[-.83,.33],[-.76,.31]];
+ const sh=new THREE.Shape();P.forEach(([z,y],i)=>i?sh.lineTo(z,y):sh.moveTo(z,y));
+ const g=new THREE.ExtrudeGeometry(sh,{depth:.022,bevelEnabled:true,bevelThickness:.006,bevelSize:.008,bevelSegments:2,curveSegments:4});
+ const pa=g.attributes.position;for(let i=0;i<pa.count;i++){const x=pa.getX(i),y=pa.getY(i),z=pa.getZ(i);pa.setXYZ(i,-.742+z,y,x);}g.computeVertexNormals();
+ const cardM=new THREE.MeshStandardMaterial({color:0x3b3d41,roughness:.85,side:THREE.DoubleSide});const card=new THREE.Mesh(g,cardM);
+ const off=new THREE.Group();off.position.set(-RDH[0],-RDH[1],-RDH[2]);rdoorPivot.add(off);off.add(card);
+ const arm=new THREE.Mesh(new RoundedBoxGeometry(.06,.045,.42,3,.015),new THREE.MeshStandardMaterial({color:0x2c2e31,roughness:.8}));arm.position.set(-.705,.6,-.62);off.add(arm);
+ const fab=new THREE.Mesh(new THREE.PlaneGeometry(.5,.16),new THREE.MeshStandardMaterial({color:0x55585e,roughness:.95,side:THREE.DoubleSide}));fab.rotation.y=Math.PI/2;fab.position.set(-.716,.7,-.6);off.add(fab);
+ const hdl=new THREE.Mesh(new RoundedBoxGeometry(.02,.03,.09,2,.008),M.chrome);hdl.position.set(-.712,.7,-.36);off.add(hdl);
+ const win=new THREE.Mesh(new RoundedBoxGeometry(.018,.02,.06,2,.006),M.black);win.position.set(-.71,.64,-.36);off.add(win);}if(window.__rLogo)hatchPivot.add(window.__rLogo);
 M.trimIn=new THREE.MeshStandardMaterial({color:0x2b2c2f,roughness:.85,side:THREE.DoubleSide,envMapIntensity:.35});M.trimIn.userData.env0=.35;ENVM.push(M.trimIn);
 M.amber=new THREE.MeshPhysicalMaterial({color:0xff8a14,metalness:.2,roughness:.12,clearcoat:1,emissive:0xff7a00,emissiveIntensity:.12,side:THREE.DoubleSide});
 const MATS={amber:M.amber,paint:M.paint,black:M.trim,plastic:M.plastic,glass:M.glass,head:M.head,tail:M.tail,fog:M.fogL,chrome:M.chrome,trim:M.trimIn};
 async function loadCar(){
   const lab=t=>{const e=document.querySelector('#stLoad .lt');if(e)e.textContent=t;},bar=v=>{const e=document.querySelector('#stLoad .bar i');if(e){e.style.animation='none';e.style.left='0';e.style.width=Math.round(v*100)+'%';}};
   lab('Chargement de la Clio…');
-  const SETS={d:10,m:7},order=mobile?['m','d']:['d','m'];let txt=null,why=[];const t0=Date.now();
+  const SETS={d:9,m:6},order=mobile?['m','d']:['d','m'];let txt=null,why=[];const t0=Date.now();
   const tick=setInterval(()=>{if(!txt)lab('Chargement de la Clio… '+Math.round((Date.now()-t0)/1000)+' s');},1000);
   const one=async(f,ms)=>{for(let k=0;k<4;k++){const ac=new AbortController(),to=setTimeout(()=>ac.abort(),ms);try{const r=await fetch(f,{signal:ac.signal});if(!r.ok)throw new Error('HTTP '+r.status);const t=await r.text();if(t.length<100)throw new Error('vide');return t;}catch(e){if(k===3)throw new Error(f+' '+(e.name==='AbortError'?'délai':e.message));}finally{clearTimeout(to);}await new Promise(r=>setTimeout(r,400*(k+1)));}};
   try{for(const pre of order){const n=SETS[pre],parts=new Array(n);let done=0,next=0;
