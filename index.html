@@ -4133,7 +4133,7 @@ loadCar().then(G=>{shadowDirty=6;dirty=10;
   {const im=mk(G.interior,M.inter,.9);car.add(im);NAMED.interior=[im];}
   for(const [x,z] of[[.685,-1.291],[-.685,-1.291],[.685,1.157],[-.685,1.157]]){const w=new THREE.Group();w.position.set(x,.289,z);if(x<0)w.rotation.y=Math.PI;
     w.add(mk(G.tire.clone(),M.tire,.9));w.add(mk(G.rim.clone(),M.rim,.9));car.add(w);wheels.push(w);}
-  scene.traverse(o=>{if(o.isMesh&&!o.parent?.isScene&&o.parent===car&&!o.userData.anim){o.matrixAutoUpdate=false;o.updateMatrix();}});scene.traverse(o=>{const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[];for(const m of ms)if(m.transparent&&m.side===THREE.DoubleSide)m.forceSinglePass=true;});ready=true;document.getElementById('stLoad').classList.add('done');window.dispatchEvent(new Event('clio3d:ready'));
+  scene.traverse(o=>{if(o.isMesh&&!o.parent?.isScene&&o.parent===car&&!o.userData.anim){o.matrixAutoUpdate=false;o.updateMatrix();}});scene.traverse(o=>{const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[];for(const m of ms)if(m.transparent&&m.side===THREE.DoubleSide)m.forceSinglePass=true;});ready=true;try{const pre=f=>{GATED.forEach(l=>l.visible=f(l));R.compile(scene,cam);};pre(()=>true);pre(l=>headSpots.includes(l));pre(l=>l===ledSpot);pre(l=>l!==ledSpot);pre(()=>false);}catch(e){}document.getElementById('stLoad').classList.add('done');window.dispatchEvent(new Event('clio3d:ready'));
 }).catch(e=>{console.error(e);document.getElementById('stLoad').innerHTML='<div style="text-align:center;max-width:300px">La Clio n\'a pas pu se charger.<br><small style="opacity:.7;word-break:break-word">'+String(e&&e.message||e).replace(/</g,'&lt;').slice(0,240)+'</small><br><button type="button" onclick="location.reload()" style="margin-top:10px;min-height:40px;padding:0 16px;border-radius:999px;border:0;background:var(--acc);color:var(--acc-ink);font:inherit">Réessayer</button></div>';});
 
 /* état animé */
@@ -4280,6 +4280,7 @@ function gateLights(){for(const l of GATED){const v=l.intensity>.002;if(l.visibl
 {let held=false;cv.addEventListener('pointerdown',()=>{held=true;});window.addEventListener('pointerup',()=>{held=false;});
  cv.addEventListener('wheel',e=>{e.preventDefault();if(!held)return;const off=cam.position.clone().sub(ctl.target);const d=THREE.MathUtils.clamp(off.length()*Math.exp(e.deltaY*.0012),ctl.minDistance,ctl.maxDistance);off.setLength(d);cam.position.copy(ctl.target).add(off);tween=null;markDirty();},{passive:false});
  cv.style.touchAction='none';cv.style.overscrollBehavior='contain';stage.style.overscrollBehavior='contain';}
+let shT=0,shEnd=false;
 function frame(now){requestAnimationFrame(frame);const dt=Math.min(.05,(now-lastT)/1000);lastT=now;
   if(!visible||document.hidden||stage.offsetParent===null)return;
   tNow=now;let moving=false;
@@ -4289,7 +4290,9 @@ function frame(now){requestAnimationFrame(frame);const dt=Math.min(.05,(now-last
   if(A.hatch<.97)for(const k of['drawer','cond','planche','flid'])if(T[k]>A[k])G[k]=A[k];
   if(A.cond<.97&&T.planche>A.planche)G.planche=A.planche;
   for(const k in A){const d=(k in G?G[k]:T[k])-A[k];const sp=k==='lights'?(d>0?2.6:1.5):speed[k];if(Math.abs(d)>1e-4){A[k]+=Math.sign(d)*Math.min(Math.abs(d),sp*dt);moving=true;}}
-  if(moving||shadowDirty>0){R.shadowMap.needsUpdate=true;if(shadowDirty>0)shadowDirty--;}
+  /* ombres : pendant une animation, recalcul au plus ~7 fois/s (coûteux), puis une dernière fois à l'arrêt */
+  if(moving){if(now-shT>140){R.shadowMap.needsUpdate=true;shT=now;}shEnd=true;}else if(shEnd){R.shadowMap.needsUpdate=true;shEnd=false;}
+  if(shadowDirty>0){R.shadowMap.needsUpdate=true;shadowDirty--;}
 
   applyAnim();
   if(tween){const k=cl((now-tween.s)/tween.d),e=ease(k);cam.position.lerpVectors(tween.c0,tween.c1,e);ctl.target.lerpVectors(tween.t0,tween.t1,e);if(k>=1){tween=null;if(focusId){ctl.autoRotate=true;ctl.autoRotateSpeed=.55;}}}
