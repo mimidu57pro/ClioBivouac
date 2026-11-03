@@ -4271,7 +4271,13 @@ function gateLights(){for(const l of GATED){const v=l.intensity>.002;if(l.visibl
  cv.style.touchAction='none';cv.style.overscrollBehavior='contain';stage.style.overscrollBehavior='contain';}
 function frame(now){requestAnimationFrame(frame);const dt=Math.min(.05,(now-lastT)/1000);lastT=now;
   if(!visible||document.hidden||stage.offsetParent===null)return;
-  tNow=now;let moving=false;for(const k in A){const d=T[k]-A[k];const sp=k==='lights'?(d>0?2.6:1.5):speed[k];if(Math.abs(d)>1e-4){A[k]+=Math.sign(d)*Math.min(Math.abs(d),sp*dt);moving=true;}}
+  tNow=now;let moving=false;
+  /* ordre logique : le coffre ne se ferme qu'une fois le tiroir et tout ce qui en sort rangé ; le tiroir ne sort qu'une fois le coffre ouvert */
+  const INH=['drawer','cond','planche','flame','sink','spray','awning','flid'];const G={};
+  if(T.hatch<.5){for(const k of INH)T[k]=0;if(INH.some(k=>A[k]>.02))G.hatch=Math.max(T.hatch,A.hatch);}
+  if(A.hatch<.97)for(const k of['drawer','cond','planche','flid'])if(T[k]>A[k])G[k]=A[k];
+  if(A.drawer<.97)for(const k of['cond','planche'])if(T[k]>A[k])G[k]=A[k];
+  for(const k in A){const d=(k in G?G[k]:T[k])-A[k];const sp=k==='lights'?(d>0?2.6:1.5):speed[k];if(Math.abs(d)>1e-4){A[k]+=Math.sign(d)*Math.min(Math.abs(d),sp*dt);moving=true;}}
   if(moving||shadowDirty>0){R.shadowMap.needsUpdate=true;if(shadowDirty>0)shadowDirty--;}
 
   applyAnim();
@@ -4296,7 +4302,7 @@ requestAnimationFrame(frame);
 /* API pour le site */
 window.CLIO3D={
   mode(m){const c=m==='camp',v=c?1:0;T.showerOn=0;T.spray=0;T.pump=0;T.sink=0;T.awning=v;T.tent=v;T.hatch=v;T.drawer=v;T.camp=v;T.night=c?.85:0;T.lights=v;T.led=v;T.shower=v;T.cond=v;T.planche=v;T.flame=v;T.plug=v;T.eco=v;T.rdoor=v;T.rang=v;},
-  set(k,v){if(k in T)T[k]=v;},get(k){return T[k];},
+  set(k,v){if(k in T)T[k]=v;},get(k){return T[k];},getA(k){return A[k];},
   focus(id){const h=HOT[id];if(!h)return;cancelInside();if(id==='amenagement'||id==='frigo'){T.hatch=1;}if(id==='tente'&&T.tent<1)T.tent=1;if(id==='feu'&&T.camp<1)this.mode('camp');flyTo(h.c,h.t);for(const k in pins)pins[k].classList.toggle('sel',k===id);},
   campView(){cancelInside();flyTo(CAMP_VIEW.c,CAMP_VIEW.t,2.2);},
   inside(){cancelInside();if(T.tent<1)T.tent=1;T.camp=Math.max(T.camp,0);inTentWanted=true;const go=()=>{if(!inTentWanted)return;const zz=TZ,xd=HX-1.22,y0=TBASE+.06;
