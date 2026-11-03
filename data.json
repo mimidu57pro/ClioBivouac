@@ -1,0 +1,706 @@
+{
+ "energy/main": {
+  "at": 1793604632447,
+  "loads": {
+   "heaterW": 0,
+   "panelW": 110
+  },
+  "log": [
+   {
+    "soc": 0,
+    "t": 1793604631199
+   },
+   {
+    "soc": 0,
+    "t": 1793604632447
+   }
+  ],
+  "soc": 0
+ },
+ "fuel/latest": {
+  "date": "2026-10-31",
+  "e10": 2.095,
+  "gazole": 2.37,
+  "source": "prix-carburant.eu",
+  "sp95": 2.157,
+  "sp98": 2.19
+ },
+ "parts/amenagement": {
+  "brand": "Fait maison",
+  "cat": "amenagement",
+  "hot": "amenagement",
+  "name": "Aménagement bois du coffre",
+  "note": "Construit d'après tes plans. Touche chaque élément pour le voir s'animer.",
+  "order": 70,
+  "price": null,
+  "priceKind": "estime",
+  "specs": [
+   [
+    "BAS",
+    "115 × 195 × 20 cm, au-dessus du réservoir"
+   ],
+   [
+    "Tiroir cuisine",
+    "113 × 42 × 33 cm, coulisses 100/105 cm"
+   ],
+   [
+    "Tiroir condiments",
+    "coulisses 40/50 cm, au-dessus de la cuisine"
+   ],
+   [
+    "Caisson fixe",
+    "115 × 45 × 35 cm, glacière + EcoFlow"
+   ],
+   [
+    "Quincaillerie",
+    "charnières 90°, attaches rapides ×4, colliers acier, T nylon ×2"
+   ]
+  ],
+  "status": "prevu"
+ },
+ "parts/barres": {
+  "brand": "Green Valley",
+  "cat": "toit",
+  "desc": "Paire de barres transversales en aluminium à profil aérodynamique, avec des pieds noirs qui se serrent sur l'encadrement des portes (toit lisse, sans rails). Elles portent les deux rails alu de la tente.",
+  "hot": "barres",
+  "img": "img/barres.webp",
+  "name": "Barres de toit aluminium",
+  "note": "Additionne la tente (49 kg) et les barres, et compare au maximum autorisé sur le toit de la Clio (notice) et à la charge des barres : c'est la plus faible des deux qui compte.",
+  "order": 20,
+  "price": null,
+  "priceKind": "estime",
+  "specs": [
+   [
+    "Profil",
+    "aluminium aérodynamique"
+   ],
+   [
+    "Fixation",
+    "pieds sur l'encadrement des portes"
+   ],
+   [
+    "Tente",
+    "2 rails alu Front Runner"
+   ]
+  ],
+  "status": "achete"
+ },
+ "parts/chauffage": {
+  "brand": "",
+  "cat": "energie",
+  "hot": "tente",
+  "name": "Chauffage de la tente",
+  "note": "Modèle à choisir, avec thermostat.",
+  "order": 80,
+  "price": null,
+  "priceKind": "estime",
+  "specs": [],
+  "status": "prevu"
+ },
+ "parts/ecoflow": {
+  "brand": "EcoFlow",
+  "cat": "energie",
+  "desc": "Batterie portable LFP de 1 024 Wh avec quatre prises 230 V en façade, des ports USB-C et USB-A et un écran central. Elle se recharge sur secteur en un peu moins d'une heure, ou avec le panneau solaire pendant la journée. La chimie LFP supporte des milliers de cycles, et elle bascule sur batterie en moins de 10 ms quand le secteur coupe.",
+  "hot": "ecoflow",
+  "img": "img/ecoflow.webp",
+  "name": "Station d'énergie DELTA 3 Plus",
+  "note": "La photo correspond à une DELTA 3 Plus et non à une Delta 2 : confirme le modèle et j'ajuste la fiche.",
+  "order": 50,
+  "price": null,
+  "priceKind": "estime",
+  "specs": [
+   [
+    "Capacité",
+    "1 024 Wh (LFP)"
+   ],
+   [
+    "Sortie 230 V",
+    "1 800 W, 4 prises en façade"
+   ],
+   [
+    "Entrée solaire",
+    "jusqu'à 1 000 W"
+   ],
+   [
+    "Recharge secteur",
+    "environ 56 min"
+   ],
+   [
+    "Durée de vie",
+    "4 000 cycles à 80 %"
+   ],
+   [
+    "Poids",
+    "≈ 12,5 kg"
+   ]
+  ],
+  "status": "prevu"
+ },
+ "parts/frigo": {
+  "brand": "Vevor",
+  "cat": "cuisine",
+  "desc": "Vrai frigo-congélateur à compresseur de 20 L (21 QT) : il descend sous zéro même en plein été, contrairement à une glacière thermoélectrique. Il se branche en 12/24 V sur l'EcoFlow ou sur la voiture, ou en 230 V, et se règle depuis une appli sur le téléphone. Le couvercle s'ouvre par le dessus et la poignée est intégrée.",
+  "hot": "frigo",
+  "img": "img/frigo.jpg",
+  "link": "https://vevor.ca/car-refrigerator-c_10723/vevor-car-refrigerator-12-volt-car-refrigerator-fridge-21-qt-20-l-single-zone-portable-freezer-4-50-adjustable-range-12-24v-dc-and-100-240v-ac-compressor-cooler-for-outdoor-camping-travel-rv-p_010210591833",
+  "name": "Glacière à compresseur 20 L",
+  "note": "",
+  "order": 60,
+  "price": null,
+  "priceKind": "estime",
+  "specs": [
+   [
+    "Capacité",
+    "20 L (21 QT)"
+   ],
+   [
+    "Température",
+    "de -20 à +10 °C"
+   ],
+   [
+    "Alimentation",
+    "12/24 V et 100–240 V"
+   ],
+   [
+    "Puissance",
+    "60 W"
+   ],
+   [
+    "Dimensions",
+    "58 × 33 × 31 cm"
+   ],
+   [
+    "Poids",
+    "9,2 kg"
+   ],
+   [
+    "Bruit",
+    "< 45 dB"
+   ]
+  ],
+  "status": "achete"
+ },
+ "parts/led": {
+  "brand": "",
+  "cat": "eclairage",
+  "desc": "Barre d'éclairage incurvée à trois rangées de LED, avec un module large faisceau à chaque extrémité. Elle est livrée avec deux supports magnétiques pour se poser sur le toit sans percer, et un faisceau de câblage avec relais, interrupteur et fusibles.",
+  "hot": "led",
+  "img": "img/led.webp",
+  "name": "Barre LED incurvée",
+  "note": "En France, une barre LED non homologuée ne doit pas être allumée sur la voie publique : garde-la pour le camp et les chemins privés.",
+  "order": 30,
+  "price": null,
+  "priceKind": "estime",
+  "specs": [
+   [
+    "Forme",
+    "incurvée, 3 rangées de LED"
+   ],
+   [
+    "Fixation",
+    "2 pieds aimantés"
+   ],
+   [
+    "Câblage",
+    "faisceau avec relais, interrupteur et fusibles"
+   ],
+   [
+    "Longueur et puissance",
+    "à préciser"
+   ]
+  ],
+  "status": "prevu"
+ },
+ "parts/planche": {
+  "brand": "",
+  "cat": "cuisine",
+  "desc": "Planche à découper qui se déplie en bassine grâce à un soufflet en silicone : elle sert d'évier pour la vaisselle ou de bac pour rincer les légumes, puis se replie à plat dans le tiroir.",
+  "hot": "planche",
+  "img": "img/planche.webp",
+  "name": "Planche à découper avec bassine pliable",
+  "note": "",
+  "order": 64,
+  "price": null,
+  "priceKind": "estime",
+  "specs": [
+   [
+    "Dépliée",
+    "43 × 34 cm, bassine de 15 cm"
+   ],
+   [
+    "Usages",
+    "planche, bassine, égouttoir"
+   ],
+   [
+    "Rangement",
+    "tiroir à condiments"
+   ]
+  ],
+  "status": "prevu"
+ },
+ "parts/plaque": {
+  "brand": "",
+  "cat": "protection",
+  "desc": "Plaque en acier qui couvre le dessous du moteur et de la boîte de vitesses pour les protéger des pierres et des ornières. Elle se fixe sur les points d'origine de la Clio II, sans perçage, et ses fentes laissent passer l'air.",
+  "hot": "plaque",
+  "img": "img/plaque.webp",
+  "link": "https://www.skid-plate.com/skid-plate-for-renault-clio-2-1997-2007",
+  "name": "Protection carter acier",
+  "note": "Caractéristiques du modèle acier pour Clio II le plus proche de ta photo ; dis-moi la marque si c'en est une autre.",
+  "order": 90,
+  "price": null,
+  "priceKind": "estime",
+  "specs": [
+   [
+    "Matière",
+    "acier 2 mm, peinture poudre"
+   ],
+   [
+    "Protège",
+    "moteur et boîte de vitesses"
+   ],
+   [
+    "Compatibilité",
+    "Clio II 1997–2007"
+   ],
+   [
+    "Poids",
+    "≈ 8 kg"
+   ],
+   [
+    "Montage",
+    "points d'origine, sans perçage"
+   ]
+  ],
+  "status": "prevu"
+ },
+ "parts/pneus": {
+  "brand": "",
+  "cat": "roues",
+  "desc": "Pneus hiver marqués M+S (mud and snow) : une sculpture directionnelle en V avec de nombreuses lamelles qui mordent dans la neige et la boue, et des épaules crénelées pour garder de la motricité sur les chemins.",
+  "hot": "pneus",
+  "img": "img/pneus.webp",
+  "name": "Pneus hiver M+S",
+  "note": "Pour les chemins et la neige.",
+  "order": 100,
+  "price": null,
+  "priceKind": "estime",
+  "specs": [
+   [
+    "Type",
+    "mud & snow"
+   ]
+  ],
+  "status": "prevu"
+ },
+ "parts/pompe": {
+  "brand": "Osculati",
+  "cat": "eau",
+  "desc": "Pompe à membrane 12 V qui aspire l'eau du réservoir et la met sous pression jusqu'au robinet de la cuisine. Elle est auto-amorçante, filtrée et protégée contre la surchauffe, et ses pattes à silentblocs limitent le bruit.",
+  "hot": "pompe",
+  "img": "img/pompe.webp",
+  "link": "https://www.mon-camping-car.com/pompe-europump-4-l-min-12-v.html",
+  "name": "Pompe à eau Europump 4",
+  "note": "Posée sur le BAS côté sièges, avec la douchette ; elle aspire dans le réservoir et alimente le robinet par une rallonge spirale.",
+  "order": 45,
+  "price": null,
+  "priceKind": "estime",
+  "specs": [
+   [
+    "Tension",
+    "12 V, 3 A max"
+   ],
+   [
+    "Débit",
+    "≈ 4 L/min"
+   ],
+   [
+    "Pression",
+    "2,8 bar"
+   ],
+   [
+    "Tuyaux",
+    "Ø 10 mm"
+   ],
+   [
+    "Dimensions",
+    "17 × 10 × 6,2 cm"
+   ],
+   [
+    "Poids",
+    "0,7 kg"
+   ]
+  ],
+  "status": "prevu"
+ },
+ "parts/rechaud": {
+  "brand": "",
+  "cat": "cuisine",
+  "desc": "Réchaud plat à deux brûleurs, chacun alimenté par sa propre cartouche de butane, avec un allumage piézo à chaque bouton. Plat et compact, il se range dans le tiroir cuisine qui coulisse à l'arrière.",
+  "hot": "rechaud",
+  "img": "img/rechaud.webp",
+  "name": "Réchaud à gaz 2 feux",
+  "note": "À utiliser dehors ou hayon grand ouvert, jamais dans la tente.",
+  "order": 62,
+  "price": null,
+  "priceKind": "estime",
+  "specs": [
+   [
+    "Brûleurs",
+    "2, une cartouche chacun"
+   ],
+   [
+    "Allumage",
+    "piézo"
+   ],
+   [
+    "Encombrement",
+    "60 × 30 cm"
+   ],
+   [
+    "Place",
+    "tiroir cuisine, sur plaque alu"
+   ]
+  ],
+  "status": "prevu"
+ },
+ "parts/reservoir": {
+  "brand": "Front Runner",
+  "cat": "eau",
+  "desc": "Réservoir rigide en polyéthylène alimentaire sans BPA, prévu pour le plancher des places arrière. Sa découpe centrale enjambe le tunnel de transmission, et son dessus antidérapant sert de marche ou de support pour des bagages. Des raccords de chaque côté permettent de brancher un tuyau et un robinet ; ici, il alimente la pompe Osculati.",
+  "hot": "reservoir",
+  "img": "img/reservoir.webp",
+  "link": "https://www.dometic.com/en-gb/product/front-runner-footwell-water-tank",
+  "name": "Réservoir d'eau Footwell 40 L",
+  "note": "",
+  "order": 40,
+  "price": null,
+  "priceKind": "estime",
+  "specs": [
+   [
+    "Dimensions",
+    "120 × 25 × 18 cm"
+   ],
+   [
+    "Capacité",
+    "40 L"
+   ],
+   [
+    "Poids à vide",
+    "≈ 5 kg"
+   ],
+   [
+    "Passage du tunnel",
+    "21 à 30 × 11 cm"
+   ],
+   [
+    "Place",
+    "au sol, derrière les sièges avant"
+   ]
+  ],
+  "status": "prevu"
+ },
+ "parts/solaire": {
+  "brand": "",
+  "cat": "energie",
+  "desc": "Panneau solaire portable à quatre volets avec béquilles intégrées, à poser au soleil près du camp pour recharger l'EcoFlow. Il est livré avec une housse, des mousquetons, un câble de sortie et ses adaptateurs, et un câble USB.",
+  "hot": "ecoflow",
+  "img": "img/solaire.webp",
+  "name": "Panneau solaire pliable 110 W",
+  "note": "Il recharge environ un tiers de l'EcoFlow par belle journée.",
+  "order": 55,
+  "price": null,
+  "priceKind": "estime",
+  "specs": [
+   [
+    "Puissance",
+    "110 W crête"
+   ],
+   [
+    "Format",
+    "4 volets pliables, béquilles"
+   ],
+   [
+    "Accessoires",
+    "housse, câbles et adaptateurs, mousquetons"
+   ],
+   [
+    "Production",
+    "≈ 330 Wh par journée ensoleillée (4 h de plein soleil)"
+   ]
+  ],
+  "status": "prevu"
+ },
+ "parts/tente": {
+  "brand": "Front Runner (Dometic)",
+  "cat": "tente",
+  "desc": "Tente de toit souple à dépliage latéral de Front Runner (groupe Dometic). Repliée, elle ne fait que 32 cm de haut sous sa housse PVC à sangles ; dépliée côté passager, elle forme une chambre de 2,46 × 1,30 m pour deux adultes avec un matelas mousse intégré. Le double-toit gris recouvre toute la tente et forme des auvents au-dessus des fenêtres, et les panneaux de toit transparents permettent de regarder les étoiles. L'échelle télescopique en aluminium sert de levier pour l'ouvrir et soutient la moitié en porte-à-faux.",
+  "hot": "tente",
+  "img": "img/tente.webp",
+  "link": "https://eu.jimnystyle.com/products/front-runner-feather-lite-ii-rooftop-tent",
+  "name": "Tente de toit Feather-Lite II",
+  "note": "Se déplie côté passager, l'échelle se pose au sol.",
+  "order": 10,
+  "price": null,
+  "priceKind": "estime",
+  "specs": [
+   [
+    "Fermée",
+    "122 × 130 × 32 cm"
+   ],
+   [
+    "Ouverte",
+    "320 × 130 × 120 cm"
+   ],
+   [
+    "Chambre",
+    "246 × 130 cm, 2 adultes"
+   ],
+   [
+    "Matelas",
+    "200 × 120 cm"
+   ],
+   [
+    "Poids",
+    "49 kg avec échelle et housse"
+   ],
+   [
+    "Échelle",
+    "télescopique alu, 300 kg"
+   ]
+  ],
+  "status": "achete"
+ },
+ "settings/main": {
+  "conso": 5.5,
+  "fuel": "sp98"
+ },
+ "trips/exemple": {
+  "end": "2026-07-16",
+  "example": true,
+  "fills": [],
+  "name": "Vosges et Jura",
+  "notes": "Voyage d'exemple pour montrer le carnet : supprime-le depuis « Infos du voyage » quand tu auras le tien.",
+  "start": "2026-07-12",
+  "status": "termine",
+  "stops": [
+   {
+    "date": "2026-07-12",
+    "id": "s1",
+    "kind": "etape",
+    "km": null,
+    "lat": 49.119,
+    "lon": 6.175,
+    "name": "Metz"
+   },
+   {
+    "date": "2026-07-12",
+    "id": "s2",
+    "kind": "bivouac",
+    "km": null,
+    "lat": 48.072,
+    "lon": 6.878,
+    "name": "Gérardmer"
+   },
+   {
+    "date": "2026-07-13",
+    "id": "s3",
+    "kind": "bivouac",
+    "km": null,
+    "lat": 47.822,
+    "lon": 6.842,
+    "name": "Ballon d'Alsace"
+   },
+   {
+    "date": "2026-07-15",
+    "id": "s4",
+    "kind": "bivouac",
+    "km": null,
+    "lat": 46.63,
+    "lon": 6.28,
+    "name": "Lac de Joux"
+   }
+  ]
+ },
+ "water/main": {
+  "at": 1793606540583,
+  "level": 40,
+  "log": [
+   {
+    "d": 0,
+    "t": 1793603293635,
+    "why": "Café"
+   },
+   {
+    "d": 40,
+    "t": 1793603301272,
+    "why": "Correction"
+   },
+   {
+    "d": -2,
+    "t": 1793604600080,
+    "why": "Vaisselle"
+   },
+   {
+    "d": 2,
+    "t": 1793604618410,
+    "why": "Plein"
+   },
+   {
+    "d": 0,
+    "t": 1793604619968,
+    "why": "Plein"
+   },
+   {
+    "d": 0,
+    "t": 1793604620402,
+    "why": "Plein"
+   },
+   {
+    "d": 0,
+    "t": 1793604620612,
+    "why": "Plein"
+   },
+   {
+    "d": 0,
+    "t": 1793604620781,
+    "why": "Plein"
+   },
+   {
+    "d": 0,
+    "t": 1793604621590,
+    "why": "Plein"
+   },
+   {
+    "d": 0,
+    "t": 1793604621730,
+    "why": "Plein"
+   },
+   {
+    "d": 0,
+    "t": 1793604621905,
+    "why": "Plein"
+   },
+   {
+    "d": -0.5,
+    "t": 1793606533199,
+    "why": "Café"
+   },
+   {
+    "d": -0.5,
+    "t": 1793606534068,
+    "why": "Café"
+   },
+   {
+    "d": -0.5,
+    "t": 1793606534307,
+    "why": "Café"
+   },
+   {
+    "d": -0.5,
+    "t": 1793606534449,
+    "why": "Café"
+   },
+   {
+    "d": -0.5,
+    "t": 1793606534573,
+    "why": "Café"
+   },
+   {
+    "d": -0.5,
+    "t": 1793606534714,
+    "why": "Café"
+   },
+   {
+    "d": -0.5,
+    "t": 1793606534841,
+    "why": "Café"
+   },
+   {
+    "d": -0.5,
+    "t": 1793606534964,
+    "why": "Café"
+   },
+   {
+    "d": -0.5,
+    "t": 1793606535114,
+    "why": "Café"
+   },
+   {
+    "d": -0.5,
+    "t": 1793606535240,
+    "why": "Café"
+   },
+   {
+    "d": -0.5,
+    "t": 1793606535355,
+    "why": "Café"
+   },
+   {
+    "d": -0.5,
+    "t": 1793606535489,
+    "why": "Café"
+   },
+   {
+    "d": -5,
+    "t": 1793606536650,
+    "why": "Douche"
+   },
+   {
+    "d": -5,
+    "t": 1793606537435,
+    "why": "Douche"
+   },
+   {
+    "d": -2,
+    "t": 1793606537882,
+    "why": "Vaisselle"
+   },
+   {
+    "d": -1.5,
+    "t": 1793606538175,
+    "why": "Cuisine"
+   },
+   {
+    "d": -1.5,
+    "t": 1793606538765,
+    "why": "Cuisine"
+   },
+   {
+    "d": -0.5,
+    "t": 1793606538959,
+    "why": "Café"
+   },
+   {
+    "d": -0.5,
+    "t": 1793606539091,
+    "why": "Café"
+   },
+   {
+    "d": -5,
+    "t": 1793606539316,
+    "why": "Douche"
+   },
+   {
+    "d": -5,
+    "t": 1793606539432,
+    "why": "Douche"
+   },
+   {
+    "d": -1.5,
+    "t": 1793606539616,
+    "why": "Cuisine"
+   },
+   {
+    "d": -1.5,
+    "t": 1793606539749,
+    "why": "Cuisine"
+   },
+   {
+    "d": 35,
+    "t": 1793606540583,
+    "why": "Plein"
+   }
+  ]
+ }
+}
