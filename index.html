@@ -183,6 +183,37 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .hotlist{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
 
 /* prépa */
+.cats-tools{display:flex;gap:8px;justify-content:flex-end;margin:0 0 10px}
+.cats{display:flex;flex-direction:column;gap:12px}
+.catg{border:1px solid var(--line);border-radius:22px;background:var(--panel);overflow:hidden;transition:border-color .3s,box-shadow .4s;animation:catIn .55s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*60ms)}
+@keyframes catIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.catg.open{border-color:color-mix(in srgb,var(--acc) 55%,var(--line));box-shadow:0 18px 50px -30px var(--acc)}
+.catg-h{all:unset;box-sizing:border-box;width:100%;display:flex;align-items:center;gap:14px;padding:14px 18px;cursor:pointer;min-height:72px;position:relative}
+.catg-h:focus-visible{outline:2px solid var(--acc);outline-offset:-3px;border-radius:22px}
+.catg-h::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--acc);transform:scaleY(0);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.catg.open .catg-h::after{transform:scaleY(1)}
+.catg-ic{flex:0 0 auto;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;color:var(--acc);background:color-mix(in srgb,var(--acc) 14%,transparent);transition:transform .45s cubic-bezier(.2,.8,.2,1),background .3s,color .3s}
+.catg-ic .ico{width:24px;height:24px}
+.catg-h:hover .catg-ic{transform:rotate(-8deg) scale(1.06)}
+.catg.open .catg-ic{background:var(--acc);color:var(--acc-ink,#111)}
+.catg-t{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.catg-t b{font-family:var(--f-c);font-weight:700;font-size:22px;letter-spacing:.02em;text-transform:uppercase;line-height:1}
+.catg-t small{color:var(--muted);font-size:14px}
+.catg-th{display:flex;flex:0 0 auto}
+.catg-th img{width:38px;height:38px;border-radius:10px;object-fit:cover;background:#fff;border:2px solid var(--bg);margin-left:-12px;box-shadow:0 4px 12px rgba(0,0,0,.25);transition:transform .35s cubic-bezier(.2,.8,.2,1),margin .35s}
+.catg-th img:first-child{margin-left:0}
+.catg-h:hover .catg-th img{margin-left:-4px}
+.catg.open .catg-th img{transform:scale(.6);opacity:0;transition:transform .3s,opacity .25s}
+.catg-chev{flex:0 0 auto;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);transition:transform .45s cubic-bezier(.2,.8,.2,1),background .3s}
+.catg.open .catg-chev{transform:rotate(180deg);background:color-mix(in srgb,var(--acc) 18%,transparent)}
+.catg-b{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.8,.2,1)}
+.catg.open .catg-b{grid-template-rows:1fr}
+.catg-in{min-height:0;overflow:hidden}
+.catg-in>.pgrid{padding:4px 14px 16px}
+.catg .part{opacity:0;transform:translateY(10px) scale(.98);transition:opacity .35s,transform .45s cubic-bezier(.2,.8,.2,1)}
+.catg.open .part{opacity:1;transform:none}
+.catg.open .part:nth-child(2){transition-delay:.05s}.catg.open .part:nth-child(3){transition-delay:.1s}.catg.open .part:nth-child(4){transition-delay:.15s}.catg.open .part:nth-child(n+5){transition-delay:.2s}
+@media (max-width:560px){.catg-th{display:none}.catg-h{padding:12px 14px;gap:12px}.catg-t b{font-size:19px}}
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:14px}
 .part{display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden}
 .part .cat{display:flex;align-items:center;gap:8px;color:var(--acc)}
@@ -4133,7 +4164,11 @@ loadCar().then(G=>{shadowDirty=6;dirty=10;
   {const im=mk(G.interior,M.inter,.9);car.add(im);NAMED.interior=[im];}
   for(const [x,z] of[[.685,-1.291],[-.685,-1.291],[.685,1.157],[-.685,1.157]]){const w=new THREE.Group();w.position.set(x,.289,z);if(x<0)w.rotation.y=Math.PI;
     w.add(mk(G.tire.clone(),M.tire,.9));w.add(mk(G.rim.clone(),M.rim,.9));car.add(w);wheels.push(w);}
-  scene.traverse(o=>{if(o.isMesh&&!o.parent?.isScene&&o.parent===car&&!o.userData.anim){o.matrixAutoUpdate=false;o.updateMatrix();}});scene.traverse(o=>{const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[];for(const m of ms)if(m.transparent&&m.side===THREE.DoubleSide)m.forceSinglePass=true;});ready=true;try{const pre=f=>{GATED.forEach(l=>l.visible=f(l));R.compile(scene,cam);};pre(()=>true);pre(l=>headSpots.includes(l));pre(l=>l===ledSpot);pre(l=>l!==ledSpot);pre(()=>false);}catch(e){}document.getElementById('stLoad').classList.add('done');window.dispatchEvent(new Event('clio3d:ready'));
+  scene.traverse(o=>{if(o.isMesh&&!o.parent?.isScene&&o.parent===car&&!o.userData.anim){o.matrixAutoUpdate=false;o.updateMatrix();}});scene.traverse(o=>{const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[];for(const m of ms)if(m.transparent&&m.side===THREE.DoubleSide)m.forceSinglePass=true;});ready=true;try{const dm=[xrayMat,xrayEdge,hovMat].map(m=>{const x=new THREE.Mesh(new THREE.BoxGeometry(.01,.01,.01),m);x.position.y=-50;scene.add(x);return x;});
+  const combos=[];for(let k=0;k<8;k++)combos.push(k);const setC=k=>{LG_PT.forEach(l=>l.visible=!!(k&1));headSpots.forEach(l=>l.visible=!!(k&2));ledSpot.visible=!!(k&4);};
+  const hid=[];scene.traverse(o=>{if(!o.visible&&!o.isLight){hid.push(o);o.visible=true;}});window.__pc=1;
+  const fin=()=>{dm.forEach(x=>scene.remove(x));hid.forEach(o=>o.visible=false);window.__pc=0;setC(0);gateLights();markDirty();};
+  (async()=>{for(const k of combos){setC(k);try{R.compileAsync?await R.compileAsync(scene,cam):R.compile(scene,cam);}catch(e){}}fin();})();}catch(e){}document.getElementById('stLoad').classList.add('done');window.dispatchEvent(new Event('clio3d:ready'));
 }).catch(e=>{console.error(e);document.getElementById('stLoad').innerHTML='<div style="text-align:center;max-width:300px">La Clio n\'a pas pu se charger.<br><small style="opacity:.7;word-break:break-word">'+String(e&&e.message||e).replace(/</g,'&lt;').slice(0,240)+'</small><br><button type="button" onclick="location.reload()" style="margin-top:10px;min-height:40px;padding:0 16px;border-radius:999px;border:0;background:var(--acc);color:var(--acc-ink);font:inherit">Réessayer</button></div>';});
 
 /* état animé */
@@ -4275,7 +4310,10 @@ function setHighlight(id){setHover(null);for(const m of hiMeshes){m.material=m.u
 let demoPrev=null,focusId=null;
 new ResizeObserver(resize).observe(stage);resize();
 const GATED=[tentLight,awningLamp,stoveGlow,fridgeLight,efLed,fireLight,ledSpot,...headSpots];
-function gateLights(){for(const l of GATED){const v=l.intensity>.002;if(l.visible!==v){l.visible=v;R.shadowMap.needsUpdate=true;}}}
+/* lumières par groupes qui basculent ensemble : peu de combinaisons, toutes préparées au chargement (sinon gel de plusieurs secondes) */
+const LG_PT=[tentLight,awningLamp,stoveGlow,fridgeLight,efLed,fireLight];
+function gateLights(){if(window.__pc)return;const g=[[LG_PT,LG_PT.some(l=>l.intensity>.002)||A.camp>.001||A.night>.001],[headSpots,headSpots.some(l=>l.intensity>.002)],[[ledSpot],ledSpot.intensity>.002]];
+  for(const [ls,v] of g)for(const l of ls)if(l.visible!==v){l.visible=v;R.shadowMap.needsUpdate=true;}}
 /* molette : toujours pour la 3D (zoom), jamais pour la page, même pendant une rotation */
 {let held=false;cv.addEventListener('pointerdown',()=>{held=true;});window.addEventListener('pointerup',()=>{held=false;});
  cv.addEventListener('wheel',e=>{e.preventDefault();if(!held)return;const off=cam.position.clone().sub(ctl.target);const d=THREE.MathUtils.clamp(off.length()*Math.exp(e.deltaY*.0012),ctl.minDistance,ctl.maxDistance);off.setLength(d);cam.position.copy(ctl.target).add(off);tween=null;markDirty();},{passive:false});
@@ -4493,8 +4531,8 @@ function vPrepa(){
   let h=`<div class="sec-h"><div><div class="lbl">La prépa aventure</div><h2 class="h2">Tout ce qui part <em>avec elle</em></h2><p class="lead">Chaque équipement, ses cotes et où il en est. Touche « Voir sur la Clio » pour le retrouver en 3D.</p></div>${S.canEdit?`<button class="btn" type="button" data-add-part>${ic('plus')}Ajouter un équipement</button>`:''}</div>
    <div class="card totals" style="margin-bottom:14px"><div><b class="num">${ps.length}</b><small>équipements</small></div><div><b class="num">${inst}</b><small>installés</small></div><div><b class="num">${known?eur(tot):'—'}</b><small>${known?`budget connu (${known} prix sur ${ps.length})`:'prix à renseigner'}</small></div></div>`;
   if(!ps.length)h+=`<div class="empty"><b>La liste se remplit</b>Les équipements apparaissent ici dès que le carnet est chargé.</div>`;
-  h+=`<div class="pgrid">`+ps.map(p=>{const c=CATS[p.cat]||CATS.autre;return `<article class="card part reveal">
-    <div class="cat">${ic(c.i)}<span class="lbl" style="color:inherit">${c.n}</span><span style="margin-left:auto" class="pill ${esc(p.status)}"><i></i>${STAT[p.status]||'Prévu'}</span></div>
+  const card=p=>{const c=CATS[p.cat]||CATS.autre;return `<article class="card part">
+    <div class="cat"><span style="margin-left:auto" class="pill ${esc(p.status)}"><i></i>${STAT[p.status]||'Prévu'}</span></div>
     <div class="phead ${p.img?'':'noimg'}">${p.img?`<img class="thumb" src="${esc(p.img)}" alt="" loading="lazy">`:''}<div style="min-width:0"><h3>${esc(p.name)}</h3>${p.brand?`<div class="brandn">${esc(p.brand)}</div>`:''}</div></div>
     ${p.desc?`<p class="pdesc">${esc(p.desc)}</p>`:''}
     ${p.specs&&p.specs.length?`<dl class="specs">${p.specs.map(s=>`<dt>${esc(s[0])}</dt><dd>${esc(s[1])}</dd>`).join('')}</dl>`:''}
@@ -4502,7 +4540,21 @@ function vPrepa(){
     ${p.link?`<a class="plink" href="${esc(p.link)}" target="_blank" rel="noopener">Voir la fiche produit ↗</a>`:''}
     <div class="foot"><span class="price">${p.price!=null&&p.price!==''?eur(+p.price):'Prix ?'}${p.price!=null&&p.price!==''?`<small>${p.priceKind==='reel'?'payé':'estimé'}</small>`:''}</span>
      <span style="display:flex;gap:6px">${p.hot?`<button class="btn ghost sm" type="button" data-see="${esc(p.hot)}">${ic('eye')}Voir sur la Clio</button>`:''}${S.canEdit?`<button class="iconbtn" type="button" data-edit-part="${esc(p.id)}" aria-label="Modifier ${esc(p.name)}">${ic('edit')}</button>`:''}</span></div>
-  </article>`;}).join('')+`</div>`;
+  </article>`;};
+  const groups=Object.keys(CATS).map(k=>[k,ps.filter(p=>(CATS[p.cat]?p.cat:'autre')===k)]).filter(g=>g[1].length);
+  if(!S.openCats&&groups.length)S.openCats=new Set([groups[0][0]]);
+  h+=`<div class="cats-tools"><button class="btn ghost sm" type="button" data-cats-all="1">${ic('down')}Tout déplier</button><button class="btn ghost sm" type="button" data-cats-all="0">${ic('up')}Tout replier</button></div><div class="cats">`+groups.map(([k,items],gi)=>{const c=CATS[k],open=S.openCats?S.openCats.has(k):gi===0;
+    const sub=items.reduce((t,p)=>t+(+p.price||0),0),ins=items.filter(p=>p.status==='installe').length;
+    const thumbs=items.filter(p=>p.img).slice(0,4).map(p=>`<img src="${esc(p.img)}" alt="" loading="lazy">`).join('');
+    return `<section class="catg${open?' open':''}" data-cat="${k}" style="--i:${gi}">
+     <button class="catg-h" type="button" data-cat-toggle="${k}" aria-expanded="${open}" aria-controls="cg-${k}">
+      <span class="catg-ic">${ic(c.i)}</span>
+      <span class="catg-t"><b>${c.n}</b><small>${items.length} équipement${items.length>1?'s':''}${ins?` · ${ins} installé${ins>1?'s':''}`:''}${sub?` · ${eur(sub)}`:''}</small></span>
+      <span class="catg-th" aria-hidden="true">${thumbs}</span>
+      <span class="catg-chev" aria-hidden="true">${ic('down')}</span>
+     </button>
+     <div class="catg-b" id="cg-${k}"><div class="catg-in"><div class="pgrid">${items.map(card).join('')}</div></div></div>
+    </section>`;}).join('')+`</div>`;
   $('#v-prepa').innerHTML=h;}
 
 /* --- Voyages --- */
@@ -4647,6 +4699,8 @@ document.addEventListener('click',async e=>{
   if(el.matches('[data-close-panel]')){closePanel();drawExplore();return;}
   if(el.dataset.explore!=null){exploreGo(+el.dataset.explore);return;}
   if(el.dataset.ex){const it=exItems();const cur=it.findIndex(x=>x[0]===S.panel);exploreGo(cur<0?(+el.dataset.ex>0?0:it.length-1):cur+(+el.dataset.ex));return;}
+  if(el.dataset.catToggle){const k=el.dataset.catToggle,sec=el.closest('.catg');S.openCats=S.openCats||new Set();const o=!S.openCats.has(k);o?S.openCats.add(k):S.openCats.delete(k);sec.classList.toggle('open',o);el.setAttribute('aria-expanded',String(o));if(o)setTimeout(()=>{const r=sec.getBoundingClientRect();if(r.top<70||r.top>innerHeight*.6)sec.scrollIntoView({behavior:'smooth',block:'start'});},120);return;}
+  if(el.dataset.catsAll!=null){const o=el.dataset.catsAll==='1';S.openCats=new Set();$$('.catg').forEach(sec=>{sec.classList.toggle('open',o);sec.querySelector('.catg-h').setAttribute('aria-expanded',String(o));if(o)S.openCats.add(sec.dataset.cat);});return;}
   if(el.dataset.hot){const id=el.dataset.hot;$('#stage').scrollIntoView({behavior:'smooth',block:'center'});openPanel(id);render();return;}
   if(el.dataset.see){const id=el.dataset.see;location.hash='van';setTimeout(()=>{$('#stage').scrollIntoView({behavior:'smooth',block:'center'});openPanel(id);render();},160);return;}
   if(el.id==='ambBtn'){const p=$('#ambPop');p.hidden=!p.hidden;el.setAttribute('aria-expanded',String(!p.hidden));if(!p.hidden)drawAmb();return;}
