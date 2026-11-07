@@ -4150,27 +4150,28 @@ const MATS={amber:M.amber,paint:M.paint,black:M.trim,plastic:M.plastic,glass:M.g
 async function loadCar(){
   const lab=t=>{const e=document.querySelector('#stLoad .lt');if(e)e.textContent=t;},bar=v=>{const e=document.querySelector('#stLoad .bar i');if(e){e.style.animation='none';e.style.left='0';e.style.width=Math.round(v*100)+'%';}};
   lab('Chargement de la Clio…');
-  const SETS={d:9,m:6},order=mobile?['m','d']:['d','m'];let txt=null,why=[];const t0=Date.now();
+  const SETS={d:12,m:8},order=mobile?['m','d']:['d','m'];let txt=null,why=[];const t0=Date.now();
   const tick=setInterval(()=>{if(!txt)lab('Chargement de la Clio… '+(window.__ck||'')+Math.round((Date.now()-t0)/1000)+' s');},1000);
+  const dec64=async t=>{t=t.trim();try{return new Uint8Array(await (await fetch('data:application/octet-stream;base64,'+t)).arrayBuffer());}catch(e){const bin=atob(t);const u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return u;}};
   const one=async(f,ms)=>{for(let k=0;k<4;k++){const ac=new AbortController(),to=setTimeout(()=>ac.abort(),ms);try{const r=await fetch(f,{signal:ac.signal});if(!r.ok)throw new Error('HTTP '+r.status);const t=await r.text();if(t.length<100)throw new Error('vide');return t;}catch(e){if(k===3)throw new Error(f+' '+(e.name==='AbortError'?'délai':e.message));}finally{clearTimeout(to);}await new Promise(r=>setTimeout(r,400*(k+1)));}};
   try{for(const pre of order){const n=SETS[pre],parts=new Array(n);let done=0,next=0;
-    try{await Promise.all(Array.from({length:4},async()=>{while(next<n){const i=next++;parts[i]=await one('mdl/'+pre+i+'.txt',20000);done++;bar(done/n);window.__ck=done+'/'+n+' · ';}}));txt=parts.join('');break;}
+    try{await Promise.all(Array.from({length:4},async()=>{while(next<n){const i=next++;parts[i]=await dec64(await one('mdl/'+pre+i+'.txt',20000));done++;bar(done/n);window.__ck=done+'/'+n+' · ';}}));let L=0;for(const x of parts)L+=x.length;const all=new Uint8Array(L);let o2=0;for(const x of parts){all.set(x,o2);o2+=x.length;}txt=all;break;}
     catch(e){why.push(e.message);}}
-  if(!txt){for(const f of order.map(x=>x==='d'?'clio-model.txt':'clio-model-m.txt')){try{txt=await one(f,90000);break;}catch(e){why.push(e.message);}}}}
+  if(!txt){for(const f of order.map(x=>x==='d'?'clio-model.txt':'clio-model-m.txt')){try{txt=await dec64(await one(f,90000));break;}catch(e){why.push(e.message);}}}}
   finally{clearInterval(tick);}
   if(!txt)throw new Error(why.join(' | '));lab('Préparation du modèle…');
-  await new Promise(ok=>{const t0=Date.now();const w=()=>{const el=document.getElementById('intro');if(!el||el.classList.contains('gone')||Date.now()-t0>8000)setTimeout(ok,120);else setTimeout(w,100);};w();});
-  const b64=txt.trim();const bin=atob(b64);const u8=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);let buf=u8.buffer;
+  await new Promise(ok=>{const t0=Date.now();const w=()=>{const el=document.getElementById('intro');if(!el||el.classList.contains('gone')||Date.now()-t0>2500)setTimeout(ok,30);else setTimeout(w,60);};w();});const tp=performance.now();
+  const u8=txt;let buf=u8.buffer;
   if(u8[0]===0x1f){buf=await new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();}
   const dv=new DataView(buf),hl=dv.getUint32(0,true),meta=JSON.parse(new TextDecoder().decode(new Uint8Array(buf,4,hl))),hdr=meta.parts||meta,base=4+hl;const G={};G.__lamps=meta.lamps||null;
   for(const p of hdr){const q=new Int16Array(buf,base+p.po,p.nv*3),pos=new Float32Array(p.nv*3);
     for(let i=0;i<p.nv;i++)for(let k=0;k<3;k++){const j=i*3+k;pos[j]=p.lo[k]+(q[j]+32768)/65535*(p.hi[k]-p.lo[k]);}
     const idx=p.i32?new Uint32Array(buf,base+p.io,p.nf*3).slice():new Uint16Array(buf,base+p.io,p.nf*3).slice();
-    const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));g.setIndex(new THREE.BufferAttribute(idx,1));G[p.name]=g;}
-  return G;}
+    const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));if(p.no!=null)g.setAttribute('normal',new THREE.BufferAttribute(new Int8Array(buf,base+p.no,p.nv*3).slice(),3,true));g.setIndex(new THREE.BufferAttribute(idx,1));G[p.name]=g;}
+  window.__tm={decode:Math.round(performance.now()-tp)};return G;}
 let ready=false;const wheels=[];const NAMED={};
-loadCar().then(G=>{shadowDirty=6;dirty=10;
-  const NOSH=new Set([M.glass,M.trimIn,M.inter,M.rim,M.headLens,M.tailLens,M.head,M.tail,M.fogL,M.chrome,M.amber]);const mk=(g,mat,crease)=>{const geo=crease?toCreasedNormals(g,crease):(g.computeVertexNormals(),g);const m=new THREE.Mesh(geo,mat);m.castShadow=!NOSH.has(mat);m.receiveShadow=mat===M.paint||mat===M.plastic||mat===M.trim;m.matrixAutoUpdate=false;m.updateMatrix();return m;};
+loadCar().then(G=>{const tb0=performance.now();shadowDirty=6;dirty=10;
+  const NOSH=new Set([M.glass,M.trimIn,M.inter,M.rim,M.headLens,M.tailLens,M.head,M.tail,M.fogL,M.chrome,M.amber]);const mk=(g,mat,crease)=>{const geo=g.attributes.normal?g:(crease?toCreasedNormals(g,crease):(g.computeVertexNormals(),g));const m=new THREE.Mesh(geo,mat);m.castShadow=!NOSH.has(mat);m.receiveShadow=mat===M.paint||mat===M.plastic||mat===M.trim;m.matrixAutoUpdate=false;m.updateMatrix();return m;};
   if(G.__lamps)placeLamps(G.__lamps);
   for(const name in G){if(name==='__lamps')continue;if(name.startsWith('lens_')){const lm=mk(G[name],name==='lens_head'?M.headLens:M.tailLens,0);(NAMED[name]=NAMED[name]||[]).push(lm);lm.castShadow=false;lm.receiveShadow=false;lm.renderOrder=3;car.add(lm);continue;}
     const [grp,key]=name.split('_');if(!key||!MATS[key])continue;const m=mk(G[name],MATS[key],key==='glass'?0:(key==='paint'||key==='trim'?1.0:.75));
@@ -4179,8 +4180,9 @@ loadCar().then(G=>{shadowDirty=6;dirty=10;
   {const im=mk(G.interior,M.inter,.9);car.add(im);NAMED.interior=[im];}
   for(const [x,z] of[[.685,-1.291],[-.685,-1.291],[.685,1.157],[-.685,1.157]]){const w=new THREE.Group();w.position.set(x,.289,z);if(x<0)w.rotation.y=Math.PI;
     w.add(mk(G.tire.clone(),M.tire,.9));w.add(mk(G.rim.clone(),M.rim,.9));car.add(w);wheels.push(w);}
-  scene.traverse(o=>{if(o.isMesh&&!o.parent?.isScene&&o.parent===car&&!o.userData.anim){o.matrixAutoUpdate=false;o.updateMatrix();}});scene.traverse(o=>{const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[];for(const m of ms)if(m.transparent&&m.side===THREE.DoubleSide)m.forceSinglePass=true;});ready=true;applyTier(tier);try{const setC=k=>{LG_PT.forEach(l=>l.visible=!!(k&1));headSpots.forEach(l=>l.visible=!!(k&2));ledSpot.visible=!!(k&4);};
-  const tb=performance.now();for(const k of[1,2,3,4,5,6,7]){if(performance.now()-tb>2500)break;setC(k);try{R.compile(scene,cam);}catch(e){}}setC(0);gateLights();markDirty();}catch(e){}document.getElementById('stLoad').classList.add('done');window.dispatchEvent(new Event('clio3d:ready'));
+  scene.traverse(o=>{if(o.isMesh&&!o.parent?.isScene&&o.parent===car&&!o.userData.anim){o.matrixAutoUpdate=false;o.updateMatrix();}});scene.traverse(o=>{const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[];for(const m of ms)if(m.transparent&&m.side===THREE.DoubleSide)m.forceSinglePass=true;});window.__tm.build=Math.round(performance.now()-tb0);ready=true;applyTier(tier);setTimeout(()=>{const setC=k=>{LG_PT.forEach(l=>l.visible=!!(k&1));headSpots.forEach(l=>l.visible=!!(k&2));ledSpot.visible=!!(k&4);};
+  const ks=[1,2,3,4,5,6,7];const step=async()=>{const k=ks.shift();if(k===undefined){gateLights();markDirty();return;}const vis=[...LG_PT,...headSpots,ledSpot].map(l=>l.visible);setC(k);
+    try{R.compile(scene,cam);}catch(e){}[...LG_PT,...headSpots,ledSpot].forEach((l,n)=>l.visible=vis[n]);gateLights();setTimeout(step,250);};step();},1500);document.getElementById('stLoad').classList.add('done');window.dispatchEvent(new Event('clio3d:ready'));
 }).catch(e=>{console.error(e);document.getElementById('stLoad').innerHTML='<div style="text-align:center;max-width:300px">La Clio n\'a pas pu se charger.<br><small style="opacity:.7;word-break:break-word">'+String(e&&e.message||e).replace(/</g,'&lt;').slice(0,240)+'</small><br><button type="button" onclick="location.reload()" style="margin-top:10px;min-height:40px;padding:0 16px;border-radius:999px;border:0;background:var(--acc);color:var(--acc-ink);font:inherit">Réessayer</button></div>';});
 
 /* état animé */
