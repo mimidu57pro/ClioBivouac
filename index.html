@@ -4543,9 +4543,9 @@ function vPrepa(){
      <span style="display:flex;gap:6px">${p.hot?`<button class="btn ghost sm" type="button" data-see="${esc(p.hot)}">${ic('eye')}Voir sur la Clio</button>`:''}${S.canEdit?`<button class="iconbtn" type="button" data-edit-part="${esc(p.id)}" aria-label="Modifier ${esc(p.name)}">${ic('edit')}</button>`:''}</span></div>
   </article>`;};
   const groups=Object.keys(CATS).map(k=>[k,ps.filter(p=>(CATS[p.cat]?p.cat:'autre')===k)]).filter(g=>g[1].length);
-  if(!S.openCats&&groups.length)S.openCats=new Set([groups[0][0]]);
-  const allOpen=groups.length&&groups.every(([k],gi)=>S.openCats?S.openCats.has(k):gi===0);
-  h+=`<div class="cats-tools"><button class="btn ghost sm cats-all" type="button" data-cats-all="${allOpen?0:1}">${allOpen?ic('up')+'<span>Tout replier</span>':ic('down')+'<span>Tout déplier</span>'}</button></div><div class="cats">`+groups.map(([k,items],gi)=>{const c=CATS[k],open=S.openCats?S.openCats.has(k):gi===0;
+  if(!S.openCats)S.openCats=new Set();
+  const allOpen=groups.length&&groups.every(([k])=>S.openCats.has(k));
+  h+=`<div class="cats-tools"><button class="btn ghost sm cats-all" type="button" data-cats-all="${allOpen?0:1}">${allOpen?ic('up')+'<span>Tout replier</span>':ic('down')+'<span>Tout déplier</span>'}</button></div><div class="cats">`+groups.map(([k,items],gi)=>{const c=CATS[k],open=S.openCats.has(k);
     const sub=items.reduce((t,p)=>t+(+p.price||0),0),ins=items.filter(p=>p.status==='installe').length;
     const thumbs=items.filter(p=>p.img).slice(0,4).map(p=>`<img src="${esc(p.img)}" alt="" loading="lazy">`).join('');
     return `<section class="catg${open?' open':''}" data-cat="${k}" style="--i:${gi}">
