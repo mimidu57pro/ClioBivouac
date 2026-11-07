@@ -196,7 +196,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .catg-ic .ico{width:24px;height:24px}
 @media (hover:hover) and (pointer:fine){.catg-h:hover .catg-ic{transform:rotate(-8deg) scale(1.06)}.catg-h:hover .catg-th img{margin-left:-4px}}
 .catg-h:active .catg-ic{transform:scale(.94)}
-.catg.open .catg-ic{background:var(--acc);color:var(--acc-ink,#111)}
+.catg.open .catg-ic{background:var(--acc);color:var(--acc-ink,#111);animation:icTilt .6s cubic-bezier(.3,.7,.2,1)}
+@keyframes icTilt{0%{transform:none}35%{transform:rotate(-14deg) scale(1.1)}65%{transform:rotate(5deg) scale(1.02)}100%{transform:none}}
 .catg-t{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
 .catg-t b{font-family:var(--f-c);font-weight:700;font-size:22px;letter-spacing:.02em;text-transform:uppercase;line-height:1}
 .catg-t small{color:var(--muted);font-size:14px}
