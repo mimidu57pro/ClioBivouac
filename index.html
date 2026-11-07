@@ -4148,7 +4148,7 @@ const MATS={amber:M.amber,paint:M.paint,black:M.trim,plastic:M.plastic,glass:M.g
 async function loadCar(){
   const lab=t=>{const e=document.querySelector('#stLoad .lt');if(e)e.textContent=t;},bar=v=>{const e=document.querySelector('#stLoad .bar i');if(e){e.style.animation='none';e.style.left='0';e.style.width=Math.round(v*100)+'%';}};
   lab('Chargement de la Clio…');
-  const SETS={d:8,m:6},order=mobile?['m','d']:['d','m'];let txt=null,why=[];const t0=Date.now();
+  const SETS={d:9,m:6},order=mobile?['m','d']:['d','m'];let txt=null,why=[];const t0=Date.now();
   const tick=setInterval(()=>{if(!txt)lab('Chargement de la Clio… '+Math.round((Date.now()-t0)/1000)+' s');},1000);
   const one=async(f,ms)=>{for(let k=0;k<4;k++){const ac=new AbortController(),to=setTimeout(()=>ac.abort(),ms);try{const r=await fetch(f,{signal:ac.signal});if(!r.ok)throw new Error('HTTP '+r.status);const t=await r.text();if(t.length<100)throw new Error('vide');return t;}catch(e){if(k===3)throw new Error(f+' '+(e.name==='AbortError'?'délai':e.message));}finally{clearTimeout(to);}await new Promise(r=>setTimeout(r,400*(k+1)));}};
   try{for(const pre of order){const n=SETS[pre],parts=new Array(n);let done=0,next=0;
