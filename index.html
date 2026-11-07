@@ -4119,6 +4119,18 @@ function placeLamps(L){L.head.forEach(p=>{const j=p[0]>0?0:1;const k=p[0]>0?1:0;
 /* chargement du modèle */
 const hatchPivot=new THREE.Group();hatchPivot.position.set(0,1.302,-1.33);car.add(hatchPivot);
 const RDH=[-.795,.6,-.262];const rdoorPivot=new THREE.Group();rdoorPivot.position.set(...RDH);car.add(rdoorPivot);
+/* garnitures fixes : portières avant (2) et arrière gauche, vues à travers les vitres */
+{const mk=(P,x,dir,par)=>{const sh=new THREE.Shape();P.forEach(([z,y],i)=>i?sh.lineTo(z,y):sh.moveTo(z,y));
+   const g=new THREE.ExtrudeGeometry(sh,{depth:.022,bevelEnabled:true,bevelThickness:.006,bevelSize:.008,bevelSegments:2,curveSegments:4});
+   const pa=g.attributes.position;for(let i=0;i<pa.count;i++){const X=pa.getX(i),Y=pa.getY(i),Z=pa.getZ(i);pa.setXYZ(i,x+dir*Z,Y,X);}g.computeVertexNormals();
+   const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:0x3b3d41,roughness:.85,side:THREE.DoubleSide}));par.add(m);
+   const zs=P.map(p=>p[0]),z0=Math.min(...zs),z1=Math.max(...zs),zc=(z0+z1)/2;
+   const arm=new THREE.Mesh(new RoundedBoxGeometry(.06,.045,(z1-z0)*.45,3,.015),new THREE.MeshStandardMaterial({color:0x2c2e31,roughness:.8}));arm.position.set(x+dir*.037,.6,zc-(z1-z0)*.05);par.add(arm);
+   const fab=new THREE.Mesh(new THREE.PlaneGeometry((z1-z0)*.55,.16),new THREE.MeshStandardMaterial({color:0x55585e,roughness:.95,side:THREE.DoubleSide}));fab.rotation.y=Math.PI/2;fab.position.set(x+dir*.026,.7,zc);par.add(fab);
+   const hdl=new THREE.Mesh(new RoundedBoxGeometry(.02,.03,.09,2,.008),M.chrome);hdl.position.set(x+dir*.03,.7,z0+(z1-z0)*.82);par.add(hdl);};
+ const FRONT=[[-.24,.31],[-.24,.80],[.5,.80],[.58,.74],[.6,.55],[.56,.36],[.5,.31]];
+ const RL=[[-.28,.31],[-.28,.80],[-1.215,.80],[-1.2,.75],[-1.13,.68],[-1.05,.61],[-.99,.53],[-.94,.45],[-.89,.38],[-.83,.33],[-.76,.31]];
+ mk(FRONT,-.742,1,car);mk(FRONT,.742,-1,car);mk(RL,.742,-1,car);}
 /* garniture intérieure de la portière arrière droite (panneau propre côté habitacle) */
 {const P=[[-.28,.31],[-.28,.80],[-1.215,.80],[-1.2,.75],[-1.13,.68],[-1.05,.61],[-.99,.53],[-.94,.45],[-.89,.38],[-.83,.33],[-.76,.31]];
  const sh=new THREE.Shape();P.forEach(([z,y],i)=>i?sh.lineTo(z,y):sh.moveTo(z,y));
@@ -4136,7 +4148,7 @@ const MATS={amber:M.amber,paint:M.paint,black:M.trim,plastic:M.plastic,glass:M.g
 async function loadCar(){
   const lab=t=>{const e=document.querySelector('#stLoad .lt');if(e)e.textContent=t;},bar=v=>{const e=document.querySelector('#stLoad .bar i');if(e){e.style.animation='none';e.style.left='0';e.style.width=Math.round(v*100)+'%';}};
   lab('Chargement de la Clio…');
-  const SETS={d:9,m:6},order=mobile?['m','d']:['d','m'];let txt=null,why=[];const t0=Date.now();
+  const SETS={d:8,m:6},order=mobile?['m','d']:['d','m'];let txt=null,why=[];const t0=Date.now();
   const tick=setInterval(()=>{if(!txt)lab('Chargement de la Clio… '+Math.round((Date.now()-t0)/1000)+' s');},1000);
   const one=async(f,ms)=>{for(let k=0;k<4;k++){const ac=new AbortController(),to=setTimeout(()=>ac.abort(),ms);try{const r=await fetch(f,{signal:ac.signal});if(!r.ok)throw new Error('HTTP '+r.status);const t=await r.text();if(t.length<100)throw new Error('vide');return t;}catch(e){if(k===3)throw new Error(f+' '+(e.name==='AbortError'?'délai':e.message));}finally{clearTimeout(to);}await new Promise(r=>setTimeout(r,400*(k+1)));}};
   try{for(const pre of order){const n=SETS[pre],parts=new Array(n);let done=0,next=0;
@@ -4320,7 +4332,7 @@ function gateLights(){if(window.__pc)return;const g=[[LG_PT,LG_PT.some(l=>l.inte
  cv.addEventListener('wheel',e=>{e.preventDefault();if(!held)return;const off=cam.position.clone().sub(ctl.target);const d=THREE.MathUtils.clamp(off.length()*Math.exp(e.deltaY*.0012),ctl.minDistance,ctl.maxDistance);off.setLength(d);cam.position.copy(ctl.target).add(off);tween=null;markDirty();},{passive:false});
  cv.style.touchAction='none';cv.style.overscrollBehavior='contain';stage.style.overscrollBehavior='contain';}
 let shT=0,shEnd=false;
-function frame(now){requestAnimationFrame(frame);const dt=Math.min(.05,(now-lastT)/1000);lastT=now;
+function frame(now){requestAnimationFrame(frame);if(window.__pc){lastT=now;return;}const dt=Math.min(.05,(now-lastT)/1000);lastT=now;
   if(!visible||document.hidden||stage.offsetParent===null)return;
   tNow=now;let moving=false;
   /* ordre logique : le coffre ne se ferme qu'une fois le tiroir et tout ce qui en sort rangé ; le tiroir ne sort qu'une fois le coffre ouvert */
